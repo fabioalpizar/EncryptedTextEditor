@@ -263,7 +263,7 @@ public class TextEditor extends javax.swing.JFrame {
         } 
         // If the user cancelled the operation 
         else
-                JOptionPane.showMessageDialog(this, "the user cancelled the operation"); 
+                JOptionPane.showMessageDialog(this, "the user cancelled the operation");
     }//GEN-LAST:event_OpenTxtActionPerformed
 
     private void SaveTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveTxtActionPerformed
