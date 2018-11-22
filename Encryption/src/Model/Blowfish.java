@@ -1,21 +1,12 @@
 package Model;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
@@ -53,13 +44,18 @@ public class Blowfish implements Crypter {
             byte[] hasil = cipher.doFinal(new BASE64Decoder().decodeBuffer(message));
             return new String(hasil);
         }
-        catch (NoSuchAlgorithmException ex) { Logger.getLogger(TripleDES.class.getName()).log(Level.SEVERE, null, ex); }
-        catch (UnsupportedEncodingException ex) { Logger.getLogger(TripleDES.class.getName()).log(Level.SEVERE, null, ex); }
-        catch (NoSuchPaddingException ex) { Logger.getLogger(TripleDES.class.getName()).log(Level.SEVERE, null, ex); }
-        catch (InvalidKeyException ex) { Logger.getLogger(TripleDES.class.getName()).log(Level.SEVERE, null, ex); }
-        catch (IllegalBlockSizeException ex) { Logger.getLogger(TripleDES.class.getName()).log(Level.SEVERE, null, ex); }
-        catch (BadPaddingException ex) { Logger.getLogger(TripleDES.class.getName()).log(Level.SEVERE, null, ex); }
-        catch (IOException ex) { Logger.getLogger(TripleDES.class.getName()).log(Level.SEVERE, null, ex); }
-        return "";
+        catch (Exception e) {
+            return RandomMessage.getRandomMessage(message.length());
+        }
+    }
+
+    @Override
+    public int messageInterval() {
+        return 0;
+    }
+
+    @Override
+    public int cryptInterval() {
+        return 0;
     }
 }

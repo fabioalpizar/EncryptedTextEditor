@@ -7,6 +7,7 @@ import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.crypto.BadPaddingException;
@@ -67,15 +68,17 @@ public class TripleDES implements Crypter {
             final byte[] plainText = decipher.doFinal(encData);
             return new String(plainText, "UTF-8");
         }
-        catch (NoSuchAlgorithmException ex) { Logger.getLogger(TripleDES.class.getName()).log(Level.SEVERE, null, ex); }
-        catch (UnsupportedEncodingException ex) { Logger.getLogger(TripleDES.class.getName()).log(Level.SEVERE, null, ex); }
-        catch (NoSuchPaddingException ex) { Logger.getLogger(TripleDES.class.getName()).log(Level.SEVERE, null, ex); }
-        catch (InvalidKeyException ex) { Logger.getLogger(TripleDES.class.getName()).log(Level.SEVERE, null, ex); }
-        catch (InvalidAlgorithmParameterException ex) { Logger.getLogger(TripleDES.class.getName()).log(Level.SEVERE, null, ex); }
-        catch (IllegalBlockSizeException ex) { Logger.getLogger(TripleDES.class.getName()).log(Level.SEVERE, null, ex); }
-        catch (BadPaddingException ex) { Logger.getLogger(TripleDES.class.getName()).log(Level.SEVERE, null, ex); }
-        catch (IOException ex) { Logger.getLogger(TripleDES.class.getName()).log(Level.SEVERE, null, ex); }
-        return "";
+        catch (Exception e) {
+            return RandomMessage.getRandomMessage(message.length());
+        }
     }
     
+    @Override public HashMap<String, String> Blocks(char[] message, char[] crypted) {
+        HashMap<String, String> Pairs = new HashMap<>();
+        
+        System.out.println(message.length / 7);
+        System.out.println(crypted.length / 12);
+        
+        return Pairs;
+    }
 }

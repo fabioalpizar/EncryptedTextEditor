@@ -4,6 +4,7 @@ import Model.AES;
 import Model.Blowfish;
 import Model.Crypter;
 import Model.Malespin;
+import Model.RandomMessage;
 import Model.TripleDES;
 import View.Editor_View;
 import java.awt.event.ActionEvent;
@@ -14,6 +15,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -26,6 +29,7 @@ public class Editor_Controller implements ActionListener {
     private Crypter model;
     private Editor_View view;
     
+    // Constructor
     public Editor_Controller(Editor_View view) {
         this.view = view;
         
@@ -40,6 +44,8 @@ public class Editor_Controller implements ActionListener {
         this.view.decrypt_Button.addActionListener(this);
         this.view.save_Button.addActionListener(this);
         this.view.load_Button.addActionListener(this);
+        this.view.partial_Button.addActionListener(this);
+        this.view.partialDecrypt_Button.addActionListener(this);
         
         // For Display
         view.setLocationRelativeTo(view);
@@ -57,6 +63,7 @@ public class Editor_Controller implements ActionListener {
                 Encrypt();
                 break;
             case "Decrypt":
+                Decrypt();
                 break;
             case "Load":
                 Load();
@@ -64,18 +71,39 @@ public class Editor_Controller implements ActionListener {
             case "Save":
                 Save();
                 break;
+            case "P. Encrypt":
+                PartialEncryption();
+                break;
+            case "P. Decrypt":
+                PartialDecryption();
+                break;
         }
     }
     
+    // Options
     public void Steganography() {
         
     }
     public void Encrypt() {
+        // Encrypt Message
         String message = view.editor_TextArea.getText();
         String key = view.key_TextField.getText();
+        String crypted = model.encrypt(message, key);
+        
+        // Display Message
+        view.partial_TextArea.setText(crypted);
     }
     public void Decrypt() {
-        
+        try {
+            String message = view.partial_TextArea.getText();
+            String key = view.key_TextField.getText();
+            String decrypted = model.decrypt(message, key);
+            
+            view.editor_TextArea.setText(decrypted);
+        }
+        catch (Exception ex) {
+            JOptionPane.showMessageDialog(view, "ERROR: Cannot Display the message");
+        }
     }
     public void selectMethod() {
         if (view.TDES_RButton.isSelected()) model = new TripleDES();
@@ -94,26 +122,24 @@ public class Editor_Controller implements ActionListener {
             File fi = new File(j.getSelectedFile().getAbsolutePath());
             
             try {
-                String s1 = "", sl = "";
+                String line = "", message = "";
                 
                 FileReader fr = new FileReader(fi);
                 BufferedReader br = new BufferedReader(fr);
-                sl = br.readLine();
-                String key = view.key_TextField.getText();
-                sl = model.decrypt(sl, key);
+                message = br.readLine();
                 
-                while ((s1 = br.readLine()) != null)
-                    sl = sl + "\n" + s1;
+                while ((line = br.readLine()) != null)
+                    message = message + "\n" + line;
                 
-                view.editor_TextArea.setText(sl);
+                view.partial_TextArea.setText(message);
             }
             catch (Exception ex) {
                 JOptionPane.showMessageDialog(view, ex.getMessage());
-            } 
-        } 
+            }
+        }
         // If the user cancelled the operation 
         else
-                JOptionPane.showMessageDialog(view, "the user cancelled the operation");
+            JOptionPane.showMessageDialog(view, "the user cancelled the operation");
     }
     public void Save() {
         // Create an object of JFileChooser class
@@ -150,5 +176,46 @@ public class Editor_Controller implements ActionListener {
         // If the user cancelled the operation 
         else
             JOptionPane.showMessageDialog(view, "Operation was cancelled.");
+    }
+    private void PartialEncryption() {
+        ArrayList<Integer> lines = new ArrayList<>();
+        
+        try {
+            for (String line : view.partialLines_TextField.getText().split("-"))
+                lines.add(Integer.parseInt(line));
+        }
+        catch (Exception e) {
+            return;
+        }
+        
+        String result = "";
+        String key = view.key_TextField.getText();
+        int index = 1;
+        
+        for (String line : view.editor_TextArea.getText().split("\n")) {
+            result += lines.contains(index++) ? model.encrypt(line, key) : line;
+            result += "\n";
+        }
+        
+        view.partial_TextArea.setText(result);
+    }
+    private void PartialDecryption() {
+        ArrayList<Integer> octets = new ArrayList<Integer>();
+        
+        for (String octet : view.partialLines_TextField.getText().split("-"))
+            octets.add(Integer.parseInt(octet));
+        
+        String message = view.partial_TextArea.getText();
+        String key = view.key_TextField.getText();
+        String decryptedMessage = model.decrypt(message, key);
+        String partialDecrypted = "";
+        
+        char[] messageChars = message.toCharArray();
+        char[] decrypted = decryptedMessage.toCharArray();
+        
+        HashMap<String, String> hello = model.Blocks(decrypted, messageChars);
+        
+        for (String hkey : hello.keySet())
+            System.out.println(hkey + ":   " + hello.get(hkey));
     }
 }

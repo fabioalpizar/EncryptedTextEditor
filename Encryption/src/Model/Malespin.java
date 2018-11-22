@@ -43,5 +43,14 @@ public class Malespin implements Crypter {
             default: return Character.toString(letter);
         }
     }
-    
+
+    @Override
+    public int messageInterval() {
+        return 0;
+    }
+
+    @Override
+    public int cryptInterval() {
+        return 0;
+    }
 }

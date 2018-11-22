@@ -3,12 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Lenovo/OneDrive/TEC/Cuarto%20Semestre/Criptografia/Proyectos/Encryption/src/main/main.java</file>
-            <file>file:/C:/Users/Lenovo/OneDrive/TEC/Cuarto%20Semestre/Criptografia/Proyectos/Encryption/src/Controller/Editor_Controller.java</file>
-            <file>file:/C:/Users/Lenovo/OneDrive/TEC/Cuarto%20Semestre/Criptografia/Proyectos/Encryption/src/Model/TripleDES.java</file>
-            <file>file:/C:/Users/Lenovo/OneDrive/TEC/Cuarto%20Semestre/Criptografia/Proyectos/Encryption/src/View/Editor_View.java</file>
-            <file>file:/C:/Users/Lenovo/OneDrive/TEC/Cuarto%20Semestre/Criptografia/Proyectos/Encryption/src/Model/Blowfish.java</file>
-            <file>file:/C:/Users/Lenovo/OneDrive/TEC/Cuarto%20Semestre/Criptografia/Proyectos/Encryption/src/Model/Malespin.java</file>
+            <file>file:/C:/Users/Lenovo/OneDrive/TEC/Encryption/src/View/Editor_View.java</file>
+            <file>file:/C:/Users/Lenovo/OneDrive/TEC/Encryption/src/Model/Crypter.java</file>
+            <file>file:/C:/Users/Lenovo/OneDrive/TEC/Encryption/src/Model/RandomMessage.java</file>
+            <file>file:/C:/Users/Lenovo/OneDrive/TEC/Encryption/src/Controller/Editor_Controller.java</file>
+            <file>file:/C:/Users/Lenovo/OneDrive/TEC/Encryption/src/Model/TripleDES.java</file>
         </group>
     </open-files>
 </project-private>

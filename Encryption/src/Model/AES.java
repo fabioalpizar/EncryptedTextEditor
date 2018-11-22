@@ -66,16 +66,18 @@ public class AES implements Crypter {
             final byte[] plainText = decipher.doFinal(encData);
             return new String(plainText, "UTF-8");
         }
-        catch (NoSuchAlgorithmException ex) { Logger.getLogger(TripleDES.class.getName()).log(Level.SEVERE, null, ex); }
-        catch (UnsupportedEncodingException ex) { Logger.getLogger(TripleDES.class.getName()).log(Level.SEVERE, null, ex); }
-        catch (NoSuchPaddingException ex) { Logger.getLogger(TripleDES.class.getName()).log(Level.SEVERE, null, ex); }
-        catch (InvalidKeyException ex) { Logger.getLogger(TripleDES.class.getName()).log(Level.SEVERE, null, ex); }
-        catch (InvalidAlgorithmParameterException ex) { Logger.getLogger(TripleDES.class.getName()).log(Level.SEVERE, null, ex); }
-        catch (IllegalBlockSizeException ex) { Logger.getLogger(TripleDES.class.getName()).log(Level.SEVERE, null, ex); }
-        catch (BadPaddingException ex) { Logger.getLogger(TripleDES.class.getName()).log(Level.SEVERE, null, ex); }
-        catch (IOException ex) { Logger.getLogger(TripleDES.class.getName()).log(Level.SEVERE, null, ex); }
-        return "";
+        catch (Exception e) {
+            return RandomMessage.getRandomMessage(message.length());
+        }
     }
-    
-    
+
+    @Override
+    public int messageInterval() {
+        return 0;
+    }
+
+    @Override
+    public int cryptInterval() {
+        return 0;
+    }
 }
