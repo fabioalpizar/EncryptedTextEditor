@@ -1,14 +1,12 @@
 package Model;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -67,17 +65,9 @@ public class AES implements Crypter {
             return new String(plainText, "UTF-8");
         }
         catch (Exception e) {
-            return RandomMessage.getRandomMessage(message.length());
+            return "";
         }
     }
 
-    @Override
-    public int messageInterval() {
-        return 0;
-    }
-
-    @Override
-    public int cryptInterval() {
-        return 0;
-    }
+    @Override public int lenghtBetweenMessage() { return 15; }
 }

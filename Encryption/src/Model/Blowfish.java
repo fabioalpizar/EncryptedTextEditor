@@ -3,6 +3,7 @@ package Model;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -45,17 +46,10 @@ public class Blowfish implements Crypter {
             return new String(hasil);
         }
         catch (Exception e) {
-            return RandomMessage.getRandomMessage(message.length());
+            return "";
         }
     }
 
     @Override
-    public int messageInterval() {
-        return 0;
-    }
-
-    @Override
-    public int cryptInterval() {
-        return 0;
-    }
+    public int lenghtBetweenMessage() { return 8; }
 }

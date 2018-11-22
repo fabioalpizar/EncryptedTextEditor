@@ -4,7 +4,6 @@ import Model.AES;
 import Model.Blowfish;
 import Model.Crypter;
 import Model.Malespin;
-import Model.RandomMessage;
 import Model.TripleDES;
 import View.Editor_View;
 import java.awt.event.ActionEvent;
@@ -16,7 +15,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -28,6 +26,7 @@ public class Editor_Controller implements ActionListener {
     
     private Crypter model;
     private Editor_View view;
+    private Stack stack;
     
     // Constructor
     public Editor_Controller(Editor_View view) {
@@ -50,11 +49,15 @@ public class Editor_Controller implements ActionListener {
         // For Display
         view.setLocationRelativeTo(view);
         view.setVisible(true);
+        
+        // Initialize the Stack
+        stack = new Stack();
     }
     
     // ActionListener
     @Override public void actionPerformed(ActionEvent ae) {
         selectMethod();
+        stack.push(view.editor_TextArea.getText());
         
         switch (ae.getActionCommand()) {
             case "Steganography":
@@ -213,9 +216,53 @@ public class Editor_Controller implements ActionListener {
         char[] messageChars = message.toCharArray();
         char[] decrypted = decryptedMessage.toCharArray();
         
-        HashMap<String, String> hello = model.Blocks(decrypted, messageChars);
+        ArrayList<String[]> parts = Blocks(decrypted, messageChars);
         
-        for (String hkey : hello.keySet())
-            System.out.println(hkey + ":   " + hello.get(hkey));
+        for (int i = 0; i < parts.size(); i++)
+            partialDecrypted += octets.contains(i) ? parts.get(i)[0] : parts.get(i)[1];
+        
+        view.editor_TextArea.setText(partialDecrypted);
     }
+    
+    private ArrayList<String[]> Blocks(char[] message, char[] crypted) {
+        ArrayList<String[]> Pairs = new ArrayList<>();
+        ArrayList<String> messageParts = new ArrayList<>();
+        ArrayList<String> cryptedParts = new ArrayList<>();
+        String actualMessage = "", actualCrypted = "";
+        int parts = message.length / model.lenghtBetweenMessage();
+        int lenght = crypted.length / parts;
+        
+        for (int i = 0; i < message.length; i++) {
+            if (i % model.lenghtBetweenMessage() == 0 && !actualMessage.equals("")) {
+                messageParts.add(actualMessage);
+                actualMessage = "";
+            }
+            actualMessage += message[i];
+        }
+        
+        for (int i = 0; i < crypted.length; i++) {
+            if (i % lenght == 0 && !actualCrypted.equals("")) {
+                cryptedParts.add(actualCrypted);
+                actualCrypted = "";
+            }
+            actualCrypted += crypted[i];
+        }
+        
+        int min = messageParts.size() < cryptedParts.size() ?messageParts.size() : cryptedParts.size();
+        
+        for (int i = 0; i < min; i++) {
+            String[] hash = { messageParts.get(i), cryptedParts.get(i) };
+            Pairs.add(hash);
+        }
+        
+        return Pairs;
+    }
+    
+    private class Stack {
+        private ArrayList stack = new ArrayList<>();
+        
+        public void push(String value) { stack.add(value); }
+        public String pop() { return (String) stack.remove(stack.size() - 1); }
+    }
+    
 }

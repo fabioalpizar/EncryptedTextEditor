@@ -1,6 +1,6 @@
 package Model;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  *
@@ -10,5 +10,5 @@ public interface Crypter {
     public String encrypt(String message, String key);
     public String decrypt(String message, String key);
     
-    public HashMap<String, String> Blocks(char[] message, char[] crypted);
+    public int lenghtBetweenMessage();
 }

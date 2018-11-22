@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Andres Obando Alfaro
@@ -45,12 +47,5 @@ public class Malespin implements Crypter {
     }
 
     @Override
-    public int messageInterval() {
-        return 0;
-    }
-
-    @Override
-    public int cryptInterval() {
-        return 0;
-    }
+    public int lenghtBetweenMessage() { return 1; }
 }

@@ -1,15 +1,13 @@
 package Model;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -17,7 +15,6 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import static javax.swing.Spring.sum;
 
 /**
  *
@@ -69,16 +66,14 @@ public class TripleDES implements Crypter {
             return new String(plainText, "UTF-8");
         }
         catch (Exception e) {
-            return RandomMessage.getRandomMessage(message.length());
+            return "";
         }
     }
-    
-    @Override public HashMap<String, String> Blocks(char[] message, char[] crypted) {
-        HashMap<String, String> Pairs = new HashMap<>();
-        
-        System.out.println(message.length / 7);
-        System.out.println(crypted.length / 12);
-        
-        return Pairs;
+
+    @Override
+    public int lenghtBetweenMessage() {
+        return 7;
     }
+    
+    
 }
