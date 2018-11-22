@@ -1,2 +1,0 @@
-"# EncryptedTextEditor" 
-# EncryptedTextEditor
